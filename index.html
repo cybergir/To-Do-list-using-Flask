@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask To-Do List</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>My To-Do List</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Add a new task" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        {% for task in todo_list %}
+            <li>
+                <form action="/update/{{ task.id }}" method="GET">
+                    <input type="checkbox" onChange="this.form.submit()" {% if task.complete %}checked{% endif %}>
+                    <span {% if task.complete %}style="text-decoration: line-through;"{% endif %}>
+                        {{ task.task }}
+                    </span>
+                </form>
+                <form action="/delete/{{ task.id }}" method="GET" style="display: inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
